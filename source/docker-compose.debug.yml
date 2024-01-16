@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  dwn-extrimer:
+    image: dwn-extrimer
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 1337:1337
+      - 4003:4003
+      - 4002:4002
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "main.mjs"]

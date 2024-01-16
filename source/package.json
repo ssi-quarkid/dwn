@@ -1,0 +1,57 @@
+{
+	"name": "dwn-extrimer",
+	"version": "6.6.6",
+	"description": "Decentralized public and encrypted storage and relay of personal and app data, messages, and files.",
+	"keywords": [
+		"did",
+		"identity",
+		"decentralized",
+		"decentralized-identity"
+	],
+	"type": "module",
+	"license": "Apache-2.0",
+	"author": "Extrimian",
+	"main": "main.mjs",
+	"devDependencies": {
+		"acorn": "^8.5.0",
+		"buffer": "^6.0.3",
+		"crypto-browserify": "^3.12.0",
+		"process": "^0.11.10",
+		"stream-browserify": "^3.0.0",
+		"webpack": "^5.58.2",
+		"webpack-cli": "^4.9.0"
+	},
+	"dependencies": {
+		"@decentralized-identity/ion-tools": "0.1.0",
+		"@ipld/dag-pb": "^2.1.17",
+		"@koa/cors": "^3.3.0",
+		"@nano-sql/core": "2.3.7",
+		"base64url": "3.0.1",
+		"browserify-shim": "^3.8.14",
+		"canonicalize": "1.0.5",
+		"cids": "1.1.7",
+		"cross-fetch": "3.1.4",
+		"dotenv": "^16.0.2",
+		"ipfs-core": "0.8.0",
+		"it-all": "1.0.6",
+		"jose": "3.14.3",
+		"koa": "2.13.1",
+		"koa-body": "^4.2.0",
+		"koa-router": "9.4.0",
+		"koa-static": "^5.0.0",
+		"mariadb": "^3.0.1",
+		"mongodb": "^6.3.0",
+		"multiformats": "9.4.3",
+		"sequelize": "^6.21.3",
+		"uint8arrays": "3.0.0",
+		"uuid": "8.3.2"
+	},
+	"scripts": {
+		"start": "node server.mjs",
+		"start:dev": "cp ./enviroments/.dev.env .temp.env && mv .temp.env .env && node server.mjs",
+		"start:qa": "cp ./enviroments/.qa.env .temp.env && mv .temp.env .env && node server.mjs",
+		"start:hml": "cp ./enviroments/.hml.env .temp.env && mv .temp.env .env &&  node server.mjs",
+		"start:prod": "cp ./enviroments/.prod.env .temp.env && mv .temp.env .env && node server.mjs",
+		"compile": "npx webpack build --config ./webpack.config.cjs"
+	}
+}

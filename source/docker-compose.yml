@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  dwn-extrimer:
+    image: extrimianpublic.azurecr.io/dwn-extrimer:1.0.10
+    environment:
+      NODE_ENV: production
+    ports:
+      - 1337:1337
+      - 4003:4003
+      - 4002:4002
+
