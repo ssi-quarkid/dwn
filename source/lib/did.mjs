@@ -15,7 +15,7 @@ const DID = {
   methods: DIDMethods,
   getMethod(uri){
     let method = DIDMethods[uri.split(':')[1]];
-    if (!method) throw 'Unsupported DID Method';
+    if (!method) throw RangeError('Unsupported DID Method');
     return method;
   },
   async resolve(uri, options = {}){
@@ -44,9 +44,9 @@ const DID = {
       }
     };
   },
-  async getService(did, type = 'DecentralizedWebNode', frag){
+  async getService(did, frag , type = 'DecentralizedWebNode'){
     let doc = (await this.resolve(did)).didDocument;
-    let id = frag && frag.split('#').pop();
+    let id = frag?.split('#').pop();
     for (let service of doc.service) {
       if ((id ? service.id.split('#').pop() === id : true) && service.type === type) {
         return service;

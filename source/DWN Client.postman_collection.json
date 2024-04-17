@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "e4e9f6ff-73ec-4864-9af6-689b4826b5e6",
+		"name": "DWN Client",
+		"description": "# Introduction\nThis API porpouse is to Mock the process of inbox messaging using \nDescentralized Web Node and their intefaces \n\n# Overview\nThe most important thing that any developer should know is only one endpoint is required to use but depending the method or interface used the body must be changed according with DIF standars",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Thread Create",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function createUUID () {",
+							"    var dt = new Date().getTime();",
+							"    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+							"        var r = (dt + Math.random()*16)%16 | 0;",
+							"        dt = Math.floor(dt/16);",
+							"        return (c=='x' ? r :(r&0x3|0x8)).toString(16);",
+							"    });",
+							"    return uuid;",
+							"}",
+							"",
+							"let req = JSON.parse(pm.request.body.raw)",
+							"req.messages[0].descriptor.objectId = createUUID()",
+							"req.messages[0].descriptor.dateCreated = Math.floor( new Date().getTime() / 1000 )",
+							"pm.request.body.raw = JSON.stringify(req);",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"target\": \"did:modena:matic:EiAWXbyhJMNLoVAkA-SFT7TUBqcDh35\n    vJqOFavcYiHr9eQ\",\n    \"messages\": [\n        {\n            \"data\": {\n                \"@context\":[\"https://w3id.org/vaccination/v1\",\"https://www.w3.org/2018/credentials/v1\"],\"type\":[\"VaccinationCertificate\",\"VerifiableCredential\"],\"identifier\":\"2a386c53-5a0c-47ae-90f8-6e7dff8963cc\",\"credentialStatus\":{\"id\":\"https://credentials.extrimian.com/credentials/status/2a386c53-5a0c-47ae-90f8-6e7dff8963cc\",\"type\":\"CredentialStatusList2017\"},\"credentialSubject\":{\"type\":\"VaccinationEvent\",\"https://w3id.org/vaccination#VaccineEventVaccine\":{\"type\":\"Vaccine\",\"atcCode\":\"J07BX03\",\"disease\":\"COVID-19\",\"marketingAuthorizationHolder\":\"Moderna Biotech\",\"medicinalProductName\":\"COVID-19 Vaccine Moderna\"},\"administeringCentre\":\"MoH\",\"batchNumber\":\"1183738569\",\"countryOfVaccination\":\"NZ\",\"healthProfessional\":\"MoH\",\"https://w3id.org/vaccination#recipient\":{\"type\":\"VaccineRecipient\",\"birthDate\":\"2021-01-01\",\"familyName\":\"luna\",\"gender\":\"Male\",\"givenName\":\"pablo\"}},\"expirationDate\":\"05/05/2026\",\"issuanceDate\":\"13/07/2022\",\"issuer\":\"did:key:z6MkiY62766b1LJkExWMsM3QG4WtX7QpY823dxoYzr9qZvJ3\",\"proof\":{\"type\":\"sec:BbsBlsSignature2020\",\"http://purl.org/dc/terms/created\":{\"type\":\"http://www.w3.org/2001/XMLSchema#dateTime\",\"@value\":\"2022-07-13T15:45:14Z\"},\"https://w3id.org/security#proofPurpose\":{\"id\":\"https://w3id.org/security#assertionMethod\"},\"https://w3id.org/security#proofValue\":\"odxGhVeCKc6XwKh+dLQFW11sJnD/+fYdMpicMeI/6w/jci5erOfuks6LlHlZtihCI38HfhfkN1jW3itpYmHd05CJHOsvbS5h+WMM1uUJQH1GPtWhKhNo7Fy75RLMdaC/odS/oJIeHiHMhX6sS7s+Ig==\",\"https://w3id.org/security#verificationMethod\":{\"id\":\"did:modena:matic:EiBJrYsmcJK48HZmHCu8z6huHADe6I2E5y0eLdkb2-MJ_w#bbs2020\"}}\n            },\n            \"descriptor\": {\n                \"objectId\": null,\n                \"dateCreated\": null,\n                \"method\": \"ThreadsCreate\",\n                \"schema\": \"https://schema.org/LikeAction\",\n                \"dataFormat\": \"application/JSON-LD\"\n            }\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:1337/",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Thread Reply",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"function createUUID () {",
+							"    var dt = new Date().getTime();",
+							"    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+							"        var r = (dt + Math.random()*16)%16 | 0;",
+							"        dt = Math.floor(dt/16);",
+							"        return (c=='x' ? r :(r&0x3|0x8)).toString(16);",
+							"    });",
+							"    return uuid;",
+							"}",
+							"",
+							"let req = JSON.parse(pm.request.body.raw)",
+							"req.messages[0].descriptor.objectId = createUUID()",
+							"req.messages[0].descriptor.dateCreated = Math.floor( new Date().getTime() / 1000 )",
+							"pm.request.body.raw = JSON.stringify(req);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"target\": \"did:ion:extrimian\",\n    \"messages\": [\n        {\n            \"data\": {\n                \"did\": \"did:ion:agent\"\n            },\n            \"descriptor\": {\n                \"objectId\": null,\n                \"root\": \"b6464162-84af-4aab-aff5-f1f8438dfr15\",\n                \"parent\": \"b6464162-84af-4aab-aff5-f1f8438dfr15\",\n                \"dateCreated\": null,\n                \"method\": \"ThreadsReply\",\n                \"schema\": \"https://schema.org/LikeAction\",\n                \"dataFormat\": \"application/JSON-LD\"\n            }\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:1337/",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Thread Query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"target\": \"did:modena:matic:EiCAm5Dfd3pwy5aYvk1LcSKt_skP0B4-_dEnbd_YRYfXjg\",\n    \"messages\": [\n        {\n            \"descriptor\": {\n                \"method\": \"ThreadsQuery\"\n            }\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:1337/",
+					"host": [
+						"localhost"
+					],
+					"port": "1337",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "DID",
+			"value": "did:ion:EiCX6u874BpPCXcwOgiNDgu5fOw9pEOPE5GR0Kz93tFv9Q:eyJkZWx0YSI6eyJwYXRjaGVzIjpbeyJhY3Rpb24iOiJyZXBsYWNlIiwiZG9jdW1lbnQiOnsicHVibGljS2V5cyI6W3siaWQiOiJFZDI1NTE5IiwicHVibGljS2V5SndrIjp7ImNydiI6IkVkMjU1MTkiLCJrdHkiOiJPS1AiLCJ4IjoiT1l5bDlWMHVZZVdETU0xMV9PaG1LcjVzd2dtajlEQzR1ekdCTlVqVTVRTSJ9LCJwdXJwb3NlcyI6WyJhdXRoZW50aWNhdGlvbiJdLCJ0eXBlIjoiSndzVmVyaWZpY2F0aW9uS2V5MjAyMCJ9LHsiaWQiOiJzZWNwMjU2azEiLCJwdWJsaWNLZXlKd2siOnsiY3J2Ijoic2VjcDI1NmsxIiwia3R5IjoiRUMiLCJ4IjoiUDRKRm5Ld0xWMTBmTzdqdm91TnlGVkJTYUlWMWZmYjNjb2tRZnF1Y2MzWSIsInkiOiJQLWlCQWxSX3U4ZFozVXJoc2lBelprSnhTcEFGYXM3dllMUWtlUEZHSG53In0sInB1cnBvc2VzIjpbImF1dGhlbnRpY2F0aW9uIl0sInR5cGUiOiJKd3NWZXJpZmljYXRpb25LZXkyMDIwIn1dLCJzZXJ2aWNlcyI6W3siaWQiOiJodWIiLCJzZXJ2aWNlRW5kcG9pbnQiOiJodHRwOi8vbG9jYWxob3N0OjEzMzcvIiwidHlwZSI6IklkZW50aXR5SHViIn1dfX1dLCJ1cGRhdGVDb21taXRtZW50IjoiRWlDdTRSbW9qRjg2UWZtajBmSWJveGNWc1ZjZTRpUVprNDVaY3EzLWVBZ01UdyJ9LCJzdWZmaXhEYXRhIjp7ImRlbHRhSGFzaCI6IkVpQk5nbVNFMlJhZThtXzZpXzZvbmN6UUJ6NEpnZUFFaXJhUUgzeGVWMjlNRUEiLCJyZWNvdmVyeUNvbW1pdG1lbnQiOiJFaUNNUXNlb1ZxamQ4SVdnLTJKa3V6dXVvX3JjZDE4a0xqMXlSUFBUUE1LeG9BIn19",
+			"type": "string"
+		}
+	]
+}

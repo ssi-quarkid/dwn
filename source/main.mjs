@@ -5,17 +5,16 @@ import Storage from './lib/storage.mjs';
 import Status from './lib/status.mjs';
 import Interfaces from './lib/interfaces.mjs';
 import Validator from './lib/schema-validation.mjs';
-import CID from 'cids';
+
 
 import { v4 as uuidv4 } from 'uuid';
-import base64url from 'base64url';
 import fetch from 'cross-fetch';
 import { create as ipfsCreate } from 'ipfs-core';
 import { parseJwk } from 'jose/jwk/parse';
 import { FlattenedSign } from 'jose/jws/flattened/sign';
 import { FlattenedEncrypt  } from 'jose/jwe/flattened/encrypt';
 
-const IPFS = ipfsCreate({ repo: './ipfs/data' });
+const IPFS = ipfsCreate();
 
 const algs = {
   'Ed25519': 'EdDSA',
@@ -53,23 +52,22 @@ const autoIdMethods = /(Write|Create)$/i;
 const Messages = {
 
   async compose(args){
-    if (!(await Validator.validate(args.descriptor))) throw `Unsupported Interface invocation`;
+    
+    if (!(await Validator.validate(args.descriptor))) throw new RangeError(`Unsupported Interface invocation`);
 
     let ipfs = await IPFS;
     let message =  {
       descriptor: args.descriptor
     };
-
     let descriptor = args.descriptor;
-    if (descriptor.method.match(autoIdMethods)) {
-      descriptor.objectId = descriptor.objectId || uuidv4();
-    }
+
+    descriptor.method.match(autoIdMethods)? descriptor.objectId = descriptor.objectId || uuidv4():null;
+
+    args.publish?descriptor.datePublished = typeof args.publish === 'string' ? args.publish : Date.now():null;
+    
     if (descriptor.cid || args.data) {
       descriptor.clock = descriptor.clock || 0;
       descriptor.dataFormat = descriptor.dataFormat || 'application/json'; 
-    }
-    if (args.publish) {
-      descriptor.datePublished = typeof args.publish === 'string' ? args.publish : Date.now();
     }
     
     if (args.data) {
@@ -100,12 +98,12 @@ const Messages = {
     let endpoints = params.endpoints;
     if (!endpoints) {
       let service = await DID.getService(did);
-      if (service && service.serviceEndpoint) {
+      if (service?.serviceEndpoint) {
         endpoints = Array.isArray(service.serviceEndpoint) ? service.serviceEndpoint : [service.serviceEndpoint];
       }
     }
 
-    if (!endpoints) throw 'DID has no Identity Hub endpoints';
+    if (!endpoints) throw new RangeError('DID has no Identity Hub endpoints');
     else if (params.skipEndpoints) {
       endpoints = endpoints.filter(url => !params.skipEndpoints.includes(url));
     }
@@ -129,7 +127,7 @@ const Messages = {
         console.log(e);
       }
     }
-    throw 'Identity Hub message attempts failed';
+    throw new RangeError('Identity Hub message attempts failed');
   }
 }
 
@@ -182,8 +180,8 @@ class IdentityHubInstance {
     let ipfs = await this.ipfs;
     let descriptor = message.descriptor;
 
-    if (!(await Validator.validate(descriptor))) throw `Unsupported Interface type`;
-    if (!descriptor.objectId) throw 'Message does not have an ID';
+    if (!(await Validator.validate(descriptor))) throw new RangeError(`Unsupported Interface type`);
+    if (!descriptor.objectId) throw new RangeError('Message does not have an ID');
 
     let dagMessage = await Utils.dagifyMessage(message, { hub: this });
     let messageCid = await ipfs.dag.put(dagMessage, { pin: true });
@@ -232,7 +230,7 @@ class IdentityHubInstance {
       //};
     }
 
-    let allow = await this.authorize(message).catch(e => false);
+    //let allow = await this.authorize(message).catch(e => false);
     // if (allow) {
       console.log(new Date().toUTCString() +  " -- Pull  -- " +  message)
       

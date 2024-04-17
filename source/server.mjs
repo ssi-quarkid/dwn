@@ -6,14 +6,15 @@ import Static from 'koa-static';
 import { dirname } from 'path';
 import { stringify } from 'querystring';
 import { fileURLToPath } from 'url';
-
 import { IdentityHub } from './main.mjs';
 import Status from './lib/status.mjs';
 import cors from '@koa/cors';
-import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv'
+
+
 const app = new Koa();
 app.use(cors());
-dotenv.config()
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = new Router();
 const PORT = process.env.PORT_DWN;
@@ -25,9 +26,17 @@ function decodeArray(data){
   return data instanceof Uint8Array ? textDecoder.decode(data) : data;
 }
 
+let decodeEd25519keys = JSON.parse(fs.readFileSync(__dirname + '/vectors/ed25519.json'));
+    decodeEd25519keys = Buffer.from(decodeEd25519keys.data,'base64');
+    decodeEd25519keys = decodeEd25519keys.toString('utf8');
+
+let decodeSecp256k1Keys = JSON.parse(fs.readFileSync(__dirname + '/vectors/secp256k1.json'));  
+    decodeSecp256k1Keys = Buffer.from(decodeSecp256k1Keys.data , 'base64');
+    decodeSecp256k1Keys = decodeSecp256k1Keys.toString('utf8');
+
 const testDID = decodeArray(fs.readFileSync(__dirname + '/vectors/did.txt'));
-const ed25519Keys = JSON.parse(fs.readFileSync(__dirname + '/vectors/ed25519.json'));
-const secp256k1Keys = JSON.parse(fs.readFileSync(__dirname + '/vectors/secp256k1.json'));
+const ed25519Keys = JSON.parse(decodeEd25519keys);
+const secp256k1Keys = JSON.parse(decodeSecp256k1Keys);
 
 
 
@@ -42,10 +51,6 @@ router.post('/:did/table/:table', async (ctx) => {
   let result = await hub.storage.txn(db => db(ctx.params.table).query('select').exec()).catch(e => console.log(e));
   console.log(123, result);
   ctx.body = result;
-});
-
-router.get('/', (ctx) => {
-  ctx.status = 200;
 });
 
 router.post('/:did/id/:id', async (ctx) => {
@@ -73,7 +78,7 @@ router.post('/upload', async (ctx) => {
 router.post('/', async (ctx) => {
   let request = ctx.request.body;
   console.log(new Date().toUTCString() +  " -- Request parametros input")
-  console.log(ctx)
+  console.log(request)
   console.log(new Date().toUTCString() +  " -- Parametros ")
   console.log(ctx.request)
   console.log(new Date().toUTCString() + " -- Parametros full: " + stringify(ctx.request.body))
@@ -93,6 +98,11 @@ router.post('/', async (ctx) => {
   console.log(new Date().toUTCString() + " -- OK API")
 });
 
+router.get('/healthcheck', (ctx) => {
+  ctx.status = 200;
+});
+
+app.use(Static(__dirname));
 app.use(BodyParser());
 app.use(router.routes());
 app.use(router.allowedMethods());

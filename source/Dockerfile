@@ -7,7 +7,7 @@ COPY . .
 EXPOSE 1337
 EXPOSE 4002
 EXPOSE 4003
-RUN chmod -R 775 /usr/src/app
-
+RUN chown -R node /usr/src/app
+USER node
 RUN node --version
 CMD ["node", "server.mjs"]

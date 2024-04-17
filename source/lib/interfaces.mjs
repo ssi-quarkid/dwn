@@ -1,7 +1,4 @@
-
 import CID from 'cids';
-import { concat as uint8ArrayConcat } from 'uint8arrays/concat';
-import all from 'it-all';
 import Utils from './utils.mjs';
 import { IdentityHub } from '../main.mjs';
 
@@ -38,18 +35,25 @@ async function deleteMessages(hub, table, entry, deleteEntry){
 
 const Interfaces = {
   async FeatureDetectionRead(){
-    return Object.assign({
+    return (
+      {...FeatureDetection ,
+        "@context": "https://identity.foundation/schemas/hub",
+        "type": "FeatureDetection"
+      }
+    )
+    
+    /*Object.assign({
       "@context": "https://identity.foundation/schemas/hub",
       "type": "FeatureDetection",
-    }, FeatureDetection);
+    }, FeatureDetection);*/
   },
   async ProfileRead(hub){
     let entry = await hub.storage.get('profile', 'profile').catch(e => console.log(e));
     if (entry) return resolveEntry(hub, entry);
-    else throw 204;
+    else throw Error('Status: ' + 204);
   },
   async ProfileWrite(hub, message){
-    await hub.storage.set('profile', Object.assign({}, message, { id: 'default' })).catch(e => console.log(e));
+    await hub.storage.set('profile', {id:'defualt' , ...message}/*Object.assign({}, message, { id: 'default' })*/).catch(e => console.log(e));
   },
   async ProfileDelete(hub){
     await hub.storage.remove('profile', 'default').catch(e => console.log(e));
@@ -99,84 +103,61 @@ const Interfaces = {
 	console.log(new Date().toUTCString() +  " -- Threads query --")
 
     return hub.storage.find('threads', query).then(entries => {
-		console.log(new Date().toUTCString() +  " -- Query " + query)
+		console.log(new Date().toUTCString() +  " -- Query " + query.toString())
 		console.log(new Date().toUTCString() +  " -- Resultado " + entries)
     entries.map(entry => console.log(entry), "quieeero")
-		return Promise.all(entries.map(entry => resolveEntry(hub, entry)))
+		return Promise.all(entries)
     });
   },
-    async ThreadsCreate(hub, message){
+  async ThreadsCreate(hub, message){
 	  console.log('Create thread: ', message)
-    let target = hub.did;
-
     let promises = [];
     let descriptor = message.descriptor;
-    let dagMessage = await Utils.dagifyMessage(message, { hub: hub });
-    let descriptorID = dagMessage.descriptor;
-    let commit = await hub.commitMessage(message);
     let entry = await hub.storage.get('threads', descriptor.objectId);
 	console.log(new Date().toUTCString() +  " -- Threads timestamp --")
-
-	if (entry) {
-      if (descriptor.clock > entry.clock || (descriptor.clock === entry.clock )) {
-        entry.clock = descriptor.clock;
-        entry.tip = descriptorID;
-        ['schema', 'dataFormat'].forEach(prop => {
-          if (prop in descriptor) entry[prop] = descriptor[prop]
-        })
-        promises.push(deleteMessages(hub, 'threads', entry));
-        entry.messages = [descriptorID];
-      }
+  if (entry) {
+    //check for same object id not gonna do now TODO
+  }
+  else {
+    entry = {
+      id: descriptor.objectId,
+      root: descriptor.root,
+      target: hub.did,
+      parent:  descriptor.parent,
+      tip: descriptorID,
+      clock: descriptor.clock,
+      schema: descriptor.schema,
+      dataFormat: descriptor.dataFormat,
+      messages: [message]
     }
-    else {
-      entry = [{
-        id: descriptor.objectId,
-        target: target,
-        tip: descriptorID,
-        clock: descriptor.clock,
-        target: descriptor.target,
-        schema: descriptor.schema,
-        dataFormat: descriptor.dataFormat,
-        messages: [commit.cid]
-      }]
-      if (descriptor.dateCreated) {
-        entry.dateCreated = descriptor.dateCreated;
-      }
+    if (descriptor.dateCreated) {
+      entry.dateCreated = descriptor.dateCreated;
     }
-    promises.push(hub.storage.set('threads', entry));
-    await Promise.all(promises);
-  },
+  }
+  promises.push(hub.storage.set('threads', entry));
+  await Promise.all(promises);
+},
   async ThreadsReply(hub, message){
 	console.log(new Date().toUTCString() +  " -- Reply thread: " + message) 			
-
     let promises = [];
+    let target = hub.did
     let descriptor = message.descriptor;
-    let dagMessage = await Utils.dagifyMessage(message, { hub: hub });
-    let descriptorID = dagMessage.descriptor; //cid descriptor? 
-    let commit = await hub.commitMessage(message);
+    //byebye cid
     let entry = await hub.storage.get('threads', descriptor.objectId);
     if (entry) {
-      if (descriptor.clock > entry.clock || (descriptor.clock === entry.clock )) {
-        entry.clock = descriptor.clock;
-        entry.tip = descriptorID;
-        ['schema', 'root', 'parent', 'dataFormat'].forEach(prop => {
-          if (prop in descriptor) entry[prop] = descriptor[prop]
-        })
-        promises.push(deleteMessages(hub, 'threads', entry));
-        entry.messages = [descriptorID];
-      }
+      //check for same object id not gonna do now
     }
     else {
       entry = {
         id: descriptor.objectId,
         root: descriptor.root,
-        target: message.target,
+        target: target,
         parent:  descriptor.parent,
         tip: descriptorID,
         clock: descriptor.clock,
         schema: descriptor.schema,
         dataFormat: descriptor.dataFormat,
-        messages: [commit.cid]
+        messages: [message]
       }
       if (descriptor.dateCreated) {
         entry.dateCreated = descriptor.dateCreated;
@@ -235,26 +216,5 @@ const FeatureDetection = {
 for (let z in Interfaces) {
   FeatureDetection.interfaces[z] = true;
 }
-
-// const features = {
-//   interfaces: [
-    // 'ProfileRead',
-    // 'ProfileWrite',
-    // 'ProfileDelete',
-    // 'CollectionsQuery',
-    // 'CollectionsWrite',
-    // 'CollectionsDelete',
-    // 'ActionsQuery',
-    // 'ActionsCreate',
-    // 'ActionsUpdate',
-    // 'ActionsDelete',
-    // 'ActionsBatch',
-    // 'PermissionsQuery',
-    // 'PermissionsRequest',
-    // 'PermissionsUpdate',
-    // 'PermissionsDelete',
-    // 'PermissionsBatch'
-//   ]
-// }
 
 export default Interfaces;

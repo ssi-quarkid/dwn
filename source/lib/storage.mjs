@@ -1,5 +1,3 @@
-import Utils from './utils.mjs';
-import Normalize from './normalize.mjs';
 import { MongoClient } from 'mongodb';
 const DATABASE_URL = process.env.DATABASE_URL_CONN;
 const CLIENT =  new MongoClient(DATABASE_URL);
@@ -64,16 +62,19 @@ export default class Storage {
 
   async find (table, filter){
     function printData(data) {
-      var str = '';
-      for (var key in data) {
+      let str = '';
+      for (let key in data) {
           if (typeof data[key] == 'object') str += key + printData(data[key]) + ' ';
           else str += key + ' => ' + data[key] + ' ';
       }
       return str;
   };
   
-  console.log("AAAAAAAA",printData(filter));
-    return CLIENT.db("dwn").collection(table).find(filter).toArray();
+    console.log("AAAAAAAA",printData(filter));
+    let messages = CLIENT.db("dwn").collection(table).find(filter).toArray();
+    console.log("LO QUE PASA ES QUE NO ESTA GUARDANDO EL TARRRGUETT")
+    return messages 
+
   }
 
   async getStackFromIndex (id){

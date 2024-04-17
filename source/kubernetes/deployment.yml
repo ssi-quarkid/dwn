@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: js-dwn-deployment
+  labels:
+    app: js-dwn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: js-dwn
+  template:
+    metadata:
+      labels:
+        app: js-dwn
+    spec:
+      containers:
+        - name: js-dwn-container
+          image: extrimianpublic.azurecr.io/dwn-extrimier:0.1.0
+          resources: {}
+          ports:
+            - containerPort: 1337
+            - containerPort: 4002
+            - containerPort: 4003
+      imagePullSecrets:
+        - name: acr-secret

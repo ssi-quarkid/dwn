@@ -7,6 +7,7 @@ export default {
     return did.split(':').slice(0, 3).join(':');
   },
   async resolve (did){
-    return ION.resolve(did, nodeEndpoint="https://saas.extrimian.com/ion-testnet");
+    const nodeEndpoint="https://saas.extrimian.com/ion-testnet";
+    return ION.resolve(did, nodeEndpoint);
   }
 }

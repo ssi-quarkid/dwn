@@ -1,12 +1,13 @@
+
 import ION from '@decentralized-identity/ion-tools';
-const resolver = process.env.DEFAULT_RESOLVER;
 
 export default {
   name: 'quarkid',
   getBaseId(did){
-    return did;
+    return did.split(':').slice(0, 4).join(':');
   },
   async resolve (did){
-    return ION.resolve(did, nodeEndpoint=resolver);
+    const nodeEndpoint="http://modena.gcba-extrimian.com:6900/resolve"
+    return ION.resolve(did, nodeEndpoint);
   }
 }

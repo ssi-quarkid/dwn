@@ -22,8 +22,14 @@ const codes = {
  
 export default {
   getStatus(code) {
-    return Object.assign({
+    return(
+      {
+        code:code , ...codes[code]
+      }
+    ) 
+    
+    /*Object.assign({
       code: code
-    }, codes[code]);
+    }, codes[code]);*/
   }
 }

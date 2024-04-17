@@ -5,6 +5,7 @@ services:
     image: extrimianpublic.azurecr.io/dwn-extrimer:1.0.10
     environment:
       NODE_ENV: production
+      DATABASE_URL_CONN: "urldatabase4"
     ports:
       - 1337:1337
       - 4003:4003

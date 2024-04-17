@@ -1,15 +1,1 @@
-{
-  "publicJwk": {
-      "kty": "EC",
-      "crv": "secp256k1",
-      "x": "P4JFnKwLV10fO7jvouNyFVBSaIV1ffb3cokQfqucc3Y",
-      "y": "P-iBAlR_u8dZ3UrhsiAzZkJxSpAFas7vYLQkePFGHnw"
-  },
-  "privateJwk": {
-      "kty": "EC",
-      "crv": "secp256k1",
-      "d": "LcVKbxiUHINB6Iaz6XU7oOUGXDllDo6qVtD_5UD4Zzg",
-      "x": "P4JFnKwLV10fO7jvouNyFVBSaIV1ffb3cokQfqucc3Y",
-      "y": "P-iBAlR_u8dZ3UrhsiAzZkJxSpAFas7vYLQkePFGHnw"
-  }
-}
+{"data" : "ewogICJwdWJsaWNKd2siOiB7CiAgICAgICJrdHkiOiAiRUMiLAogICAgICAiY3J2IjogInNlY3AyNTZrMSIsCiAgICAgICJ4IjogIlA0SkZuS3dMVjEwZk83anZvdU55RlZCU2FJVjFmZmIzY29rUWZxdWNjM1kiLAogICAgICAieSI6ICJQLWlCQWxSX3U4ZFozVXJoc2lBelprSnhTcEFGYXM3dllMUWtlUEZHSG53IgogIH0sCiAgInByaXZhdGVKd2siOiB7CiAgICAgICJrdHkiOiAiRUMiLAogICAgICAiY3J2IjogInNlY3AyNTZrMSIsCiAgICAgICJkIjogIkxjVktieGlVSElOQjZJYXo2WFU3b09VR1hEbGxEbzZxVnREXzVVRDRaemciLAogICAgICAieCI6ICJQNEpGbkt3TFYxMGZPN2p2b3VOeUZWQlNhSVYxZmZiM2Nva1FmcXVjYzNZIiwKICAgICAgInkiOiAiUC1pQkFsUl91OGRaM1VyaHNpQXpaa0p4U3BBRmFzN3ZZTFFrZVBGR0hudyIKICB9Cn0="}

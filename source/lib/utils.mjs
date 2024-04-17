@@ -1,7 +1,6 @@
 
 import { IdentityHub } from '../main.mjs';
 import canonicalize from 'canonicalize';
-import CID from 'cids';
 
 const cidProps = {
   'descriptor': 'json',
