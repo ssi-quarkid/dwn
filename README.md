@@ -1,30 +1,22 @@
-## [Descripción](https://github.com/gcba/dwn/tree/master?tab=readme-ov-file#descripci%C3%B3n)
-## [Tecnologías](https://github.com/gcba/dwn/tree/master?tab=readme-ov-file#tecnolog%C3%ADas)
-## [Arquitectura](https://docs.quarkid.org/Arquitectura/) y [Documentación](https://docs.quarkid.org/Arquitectura/componentes/)
-## Configuraciones:
-### 1. [Entorno local](https://github.com/gcba/dwn/tree/master?tab=readme-ov-file#configuraci%C3%B3n-de-entorno-local)
-### 2. [Variables de entorno](https://github.com/gcba/dwn/tree/master?tab=readme-ov-file#configuraci%C3%B3n-de-entorno-local)
-### 3. [Pasos para instalar el componente en un servidor](https://github.com/gcba/dwn/tree/master?tab=readme-ov-file#pasos-para-instalar-el-componente-en-un-servidor)
-## [Licencia](https://github.com/gcba/dwn/tree/master?tab=readme-ov-file#licencia)
+# DWN
 
+## Table of Contents
+- [Description](#description)
+- [Technologies](#technologies)
+- [Architecture](#architecture)
+- [Documentation](#documentation)
+- [Configurations](#configurations)
+  - [Local Environment](#local-environment)
+  - [Environment Variables](#environment-variables)
+  - [Steps to Install the Component on a Server](#steps-to-install-the-component-on-a-server)
 
+## Description
 
+DWN is a network node designed for messaging. It uses REST API services as an interface to interact with decentralized applications. It employs JWS to authorize access to messages and JWE to ensure that only the recipient or creator of the message can read its content. Additionally, it relies on decentralized identification networks to verify both public keys and replicates messages to other nodes in the messaging network. TLS/SSL protocols are implemented to ensure database security, and HTTPS is used for the API service, thus ensuring the confidentiality and integrity of the information transmitted in both cases.
 
+## Technologies
 
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# Descripción
-
-DWN consiste en un nodo de red diseñado para la mensajería. Utiliza servicios de API REST como interfaz para interactuar con
-aplicaciones descentralizadas. Emplea JWS para autorizar el acceso a los mensajes y JWE para asegurar que solo el receptor o el creador del mensaje pueda leer su contenido. Además,
-se basa en redes de identificación descentralizada para verificar ambas claves públicas y replica los mensajes en otros nodos de la red de mensajería.
-Se implementan protocolos TLS/SSL para garantizar la seguridad de la base de datos, y se utiliza HTTPS para el servicio de APIs, asegurando así la confidencialidad y la integridad de
-la información transmitida en ambos casos.
-
-## Tecnologías
-
-La aplicación cuenta con las siguientes técnologias:
+The application uses the following technologies:
 
 - NodeJs v14
 - NodeJs v16
@@ -42,18 +34,20 @@ export DATABASE_URL_CONN="mongodb://localhost:27017"
 node server.mjs
 ```
 
-## Arquitectura
-[Diagrama](https://docs.quarkid.org/Arquitectura/)
+## Architecture
+[Diagram](https://docs.quarkid.org/en/Arquitectura/)
 
-## Documentación
-[Link](https://docs.quarkid.org/Arquitectura/componentes/)
+## Documentation
+[Link](https://docs.quarkid.org/en/Arquitectura/componentes/)
 
-## Configuración de entorno local
+## Configurations
 
-Clonar el repositorio
+### Local Environment
 
-- Abrir el proyecto con el editor seleccionado
-- Abrir una terminal y ejecutar:
+Clone the repository
+
+- Open the project with your selected editor
+- Open a terminal and execute:
 
 ```bash
 - yarn
@@ -61,66 +55,43 @@ Clonar el repositorio
 - yarn start
 ```
 
-## Pasos para instalar el componente en un servidor
+### Steps to Install the Component on a Server
 
-1. Contar con Linux vacío. 
-2. Instalar el componente y sus imágenes, se encuentran [Dockerhub](https://hub.docker.com/r/quarkid/dwn). Recuerde también que el DWN necesita estar conetado a una [mongodb](https://github.com/gcba/dwn/tree/master#tecnolog%C3%ADas-1).
+1. Have an empty Linux server.
+2. Install the component and its images, which can be found on [Dockerhub](https://hub.docker.com/r/quarkid/dwn). Remember that DWN also needs to be connected to a [mongodb](https://github.com/gcba/dwn/tree/master#tecnolog%C3%ADas-1).
 
-Para instalar un componente desde Docker Hub en tu servidor, sigue estos pasos:
+To install a component from Docker Hub on your server, follow these steps:
 
-1. Conéctate al servidor.
+1. Connect to the server.
 
-2. Instala Docker en el servidor:
-Si aún no tienes Docker instalado en tu servidor, sigue las instrucciones para instalar Docker en tu sistema operativo. Puedes encontrar guías detalladas en la documentación oficial de Docker.
+2. Install Docker on the server:
+If you don't have Docker installed on your server yet, follow the instructions to install Docker for your operating system. You can find detailed guides in the official Docker documentation.
 
-3. Descarga la imagen del componente desde Docker Hub utilizando el comando
-   
-```bash
-'docker pull'
-```
-
-Debes especificar el nombre completo de la imagen, que incluye el nombre del usuario o la organización en Docker Hub y el nombre de la imagen. Ejecuta el contenedor: 
+3. Download the component image from Docker Hub using the `docker pull` command. You must specify the full name of the image, which includes the username or organization name on Docker Hub and the image name. Run the container:
 
 ```bash
-docker pull docker pull quarkid/dwn
+docker pull quarkid/dwn
 ```
 
-Una vez que la imagen del componente se haya descargado en tu servidor, puedes ejecutar un contenedor utilizando el comando
+Once the component image has been downloaded to your server, you can run a container using the `docker run` command.
 
-```bash
-'docker run'.
-```
+6. Verify that the container is running:
+Use the `docker ps` command to verify that the container is running on your server.
 
-6. Verifica que el contenedor esté en ejecución:
-Utiliza el comando docker ps para verificar que el contenedor esté en ejecución en tu servidor.
+### Environment Variables
 
-## Variables de Entorno
+#### General
 
-### Generales
-
-Disponibles en [Tecnología](https://github.com/gcba/dwn/tree/master?tab=readme-ov-file#tecnolog%C3%ADas)
+Available in [Technology](#technologies) section
 
 ## Logs
 
 N/A
 
-## Requerimientos de red
+## Network Requirements
 
-La aplicación debe tener conectividad a internet y ser accesible por el [Message manager](https://github.com/gcba/message-manager/tree/master).
+The application must have internet connectivity and be accessible by the [Message manager](https://github.com/ssi-quarkid/message-manager).
 
-## Ruta de acceso
+## Access Route
 
 N/A
-
-## Licencia
-Derechos de autor © 2023 Gobierno de la Ciudad de Buenos Aires
-
-Licenciado bajo la Licencia Apache, Versión 2.0 (la "Licencia");
-usted no puede utilizar este archivo excepto en cumplimiento con la Licencia.
-Puede obtener una copia de la Licencia en
-http://www.apache.org/licenses/LICENSE-2.0.
-A menos que lo requiera la ley aplicable o se acuerde por escrito, el software
-distribuido bajo la Licencia se distribuye "TAL CUAL",
-SIN GARANTÍAS O CONDICIONES DE NINGÚN TIPO, ya sean expresas o implícitas.
-Consulte la Licencia para el idioma específico que rige los permisos y
-limitaciones bajo la Licencia.
