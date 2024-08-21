@@ -58,7 +58,7 @@ Clone the repository
 ### Steps to Install the Component on a Server
 
 1. Have an empty Linux server.
-2. Install the component and its images, which can be found on [Dockerhub](https://hub.docker.com/r/quarkid/dwn). Remember that DWN also needs to be connected to a [mongodb](https://github.com/gcba/dwn/tree/master#tecnolog%C3%ADas-1).
+2. Install the component and its images, which can be found on [Dockerhub](https://hub.docker.com/r/quarkid/dwn). Remember that DWN also needs to be connected to a [ferretdb](#technologies).
 
 To install a component from Docker Hub on your server, follow these steps:
 
